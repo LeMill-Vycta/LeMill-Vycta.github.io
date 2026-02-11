@@ -51,8 +51,8 @@ const Home = () => {
 
   return (
     <section className="relative min-h-screen overflow-hidden px-0 pb-8 pt-28 sm:pt-32 md:pb-10 md:pt-36 xl:pb-0">
-      <div className="container mx-auto flex min-h-[calc(100vh-7.5rem)] flex-col justify-center gap-8 xl:flex-row xl:items-center xl:gap-10">
-        <div className="w-full xl:w-[52%]">
+      <div className="container mx-auto flex min-h-[calc(100vh-7.5rem)] flex-col justify-center gap-8 xl:flex-row xl:items-center xl:gap-8">
+        <div className="w-full xl:w-[44%]">
           <motion.span
             variants={fadeIn("down", 0.15)}
             initial="hidden"
@@ -123,9 +123,9 @@ const Home = () => {
           initial="hidden"
           animate="show"
           exit="hidden"
-          className="relative w-full xl:w-[48%]"
+          className="relative w-full xl:w-[56%]"
         >
-          <div className="section-shell globe-shell shell-dynamic relative mx-auto">
+          <div className="section-shell globe-shell shell-dynamic relative mx-auto xl:scale-[1.05]">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(156,255,0,0.11),_transparent_56%)]" />
             <div className="relative z-10 h-full w-full">
               <GlobeComponent />

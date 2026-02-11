@@ -103,7 +103,7 @@ a {
   }
 
   .globe-shell {
-    @apply aspect-square w-full max-w-[44rem] overflow-hidden rounded-[2rem] p-2 sm:p-3 md:p-4;
+    @apply aspect-square w-full max-w-[52rem] overflow-hidden rounded-[2rem] p-2 sm:p-3 md:p-4;
   }
 
   .globe-stage {
