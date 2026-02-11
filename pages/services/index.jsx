@@ -39,7 +39,7 @@ const Services = () => {
           exit="hidden"
           className="w-full xl:w-[67%]"
         >
-          <div className="section-shell rounded-[2rem] p-4 md:p-6">
+          <div className="section-shell shell-dynamic rounded-[2rem] p-4 md:p-6">
             <ServiceSlider />
           </div>
         </motion.div>

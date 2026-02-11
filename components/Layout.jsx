@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 
 import Header from "./Header";
 import Nav from "./Nav";
+import RightAccent from "./RightAccent";
 import TopLeftImg from "./TopLeftImg";
 
 const sora = Sora({
@@ -37,6 +38,7 @@ const Layout = ({ children }) => {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content="/vyctalemill.png" />
         <link rel="canonical" href={siteUrl} />
+        <link rel="preload" as="image" href="/earth-dark.jpg" />
       </Head>
 
       <a
@@ -47,6 +49,7 @@ const Layout = ({ children }) => {
       </a>
 
       <TopLeftImg />
+      <RightAccent />
       <Header />
       <Nav />
 

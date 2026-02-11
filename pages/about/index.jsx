@@ -233,8 +233,8 @@ const About = () => {
           exit="hidden"
           className="w-full xl:w-[56%]"
         >
-          <div className="section-shell h-full rounded-[2rem]">
-            <div className="no-visible-scrollbar mb-6 flex gap-2 overflow-auto pb-1">
+          <div className="section-shell shell-dynamic h-full rounded-[2rem]">
+            <div className="no-visible-scrollbar mb-6 flex flex-nowrap gap-2 overflow-x-auto overflow-y-hidden pb-2 pr-3 sm:flex-wrap sm:overflow-visible">
               {aboutData.map((item, itemI) => {
                 const isActive = index === itemI;
 
@@ -242,7 +242,7 @@ const About = () => {
                   <button
                     type="button"
                     key={item.title}
-                    className={`rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-200 md:text-sm ${
+                    className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-200 md:text-sm ${
                       isActive
                         ? "border-accent/65 bg-accent/15 text-accent"
                         : "border-white/15 text-white/75 hover:border-accent/40 hover:text-accent"

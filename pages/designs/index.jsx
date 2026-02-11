@@ -35,7 +35,7 @@ const Work = () => {
           initial="hidden"
           animate="show"
           exit="hidden"
-          className="section-shell rounded-[2rem] p-4 md:p-6"
+          className="section-shell shell-dynamic rounded-[2rem] p-4 md:p-6"
         >
           <WorkSlider />
         </motion.div>

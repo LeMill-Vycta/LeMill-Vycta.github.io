@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { cn } from "../../utils/cn";
 
@@ -23,43 +23,57 @@ export const InfiniteMovingCards = ({
   pauseOnHover?: boolean;
   className?: string;
 }) => {
-  const animationDirection = direction === "left" ? "forwards" : "reverse";
-  const animationDuration = speed === "fast" ? "30s" : speed === "normal" ? "40s" : "60s";
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLUListElement>(null);
+  const [start, setStart] = useState(false);
 
-  const duplicatedItems = useMemo(() => [...items, ...items], [items]);
+  useEffect(() => {
+    if (!containerRef.current || !scrollerRef.current) {
+      return;
+    }
 
-  const scrollerStyle = useMemo(
-    () =>
-      ({
-        ["--animation-direction" as string]: animationDirection,
-        ["--animation-duration" as string]: animationDuration,
-      }) as React.CSSProperties,
-    [animationDirection, animationDuration]
-  );
+    const scrollerNode = scrollerRef.current;
+    if (scrollerNode.dataset.duplicated !== "true") {
+      const scrollerContent = Array.from(scrollerNode.children);
+      scrollerContent.forEach((item) => {
+        const duplicatedItem = item.cloneNode(true);
+        scrollerNode.appendChild(duplicatedItem);
+      });
+      scrollerNode.dataset.duplicated = "true";
+    }
+
+    containerRef.current.style.setProperty(
+      "--animation-direction",
+      direction === "left" ? "forwards" : "reverse"
+    );
+
+    const duration = speed === "fast" ? "30s" : speed === "normal" ? "40s" : "60s";
+    containerRef.current.style.setProperty("--animation-duration", duration);
+
+    const frame = requestAnimationFrame(() => setStart(true));
+    return () => cancelAnimationFrame(frame);
+  }, [direction, speed]);
 
   return (
     <div
-      style={scrollerStyle}
+      ref={containerRef}
       className={cn(
         "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
         className
       )}
     >
       <ul
+        ref={scrollerRef}
         className={cn(
           "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
-          "animate-scroll",
+          start && "animate-scroll",
           pauseOnHover && "hover:[animation-play-state:paused]"
         )}
       >
-        {duplicatedItems.map((item, index) => {
-          const isClone = index >= items.length;
-
-          return (
+        {items.map((item, index) => (
           <li
             className="relative w-[82vw] max-w-full flex-shrink-0 rounded-2xl border border-accent/40 bg-matte px-5 py-6 min-[420px]:w-[340px] min-[420px]:px-7 md:w-[440px] md:px-8"
             key={`${item.name}-${index}`}
-            aria-hidden={isClone}
           >
             <blockquote>
               <span className="relative z-20 text-sm leading-[1.7] text-gray-100 xl:text-base">{item.message}</span>
@@ -75,7 +89,7 @@ export const InfiniteMovingCards = ({
               </div>
             </blockquote>
           </li>
-        )})}
+        ))}
       </ul>
     </div>
   );

@@ -7,6 +7,7 @@ import { Tabs } from "./ui/tabs";
 import { CardBody, CardContainer, CardItem } from "./ui/3dcard";
 import Beam from "./ui/beam.tsx";
 import { motion } from "framer-motion";
+import { RxArrowTopRight } from "react-icons/rx";
 
 const workSlides = {
   slides: [
@@ -299,48 +300,61 @@ const WorkSlider = () => {
         content: (
           <div className="grid row-auto gap-4 sm:grid-cols-2 xl:grid-cols-3 xl:gap-6">
             {slide.images.map((image, imageI) => (
-              <div key={imageI} style={{ perspective: "1000px" }}>
-                <motion.div>
-                  <Beam className="top-0 hidden xl:block" />
-                  <CardContainer className="relative rounded-2xl">
-                    <CardBody
-                      className={`group/card relative h-[18.5rem] w-full rounded-2xl border border-accent/40 bg-matte p-5 hover:border-accent hover:shadow-glow md:h-[19rem] ${
-                        imageI === slide.images.length - 1 ? "mb-8 xl:mb-10" : ""
-                      }`}
-                    >
-                      <CardItem translateZ="45" className="text-base font-semibold tracking-wider">
-                        {image.title}
-                      </CardItem>
-                      <CardItem
-                        as="p"
-                        translateZ="58"
-                        className="mt-2 max-w-sm text-xs text-white/65 md:text-sm"
-                      >
-                        Click image for <span className="font-semibold text-accent">Live Preview</span>
-                      </CardItem>
+              <motion.div
+                key={`${slide.title}-${image.title}`}
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.34, ease: "easeOut", delay: (imageI % 6) * 0.035 }}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.985 }}
+              >
+                <Beam className="top-0 hidden xl:block" />
+                <CardContainer className="relative rounded-2xl">
+                  <CardBody
+                    className={`group/card relative h-[20rem] w-full overflow-hidden rounded-2xl border border-accent/40 bg-[linear-gradient(170deg,#161923_0%,#090d16_44%,#070a11_100%)] p-4 shadow-[0_18px_34px_rgba(0,0,0,0.35)] transition-all duration-300 hover:border-accent hover:shadow-glow sm:h-[21rem] md:h-[22rem] md:p-5 ${
+                      imageI === slide.images.length - 1 ? "mb-8 xl:mb-10" : ""
+                    }`}
+                  >
+                    <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_86%_8%,rgba(241,48,36,0.22),transparent_54%)] opacity-70 transition-opacity duration-300 group-hover/card:opacity-100" />
 
-                      <Link
-                        href={image.link}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="flex items-center gap-x-1 text-[12px] tracking-[0.18em]"
-                      >
-                        <CardItem translateZ="100" className="mt-4 w-full gap-x-1">
+                    <CardItem translateZ={68} className="relative z-10 text-sm font-semibold tracking-[0.08em] md:text-base">
+                      {image.title}
+                    </CardItem>
+                    <CardItem as="p" translateZ={78} className="relative z-10 mt-2 max-w-sm text-[11px] leading-6 text-white/70 md:text-sm">
+                      Tap or click for <span className="font-semibold text-accent">live preview</span>
+                    </CardItem>
+
+                    <Link
+                      href={image.link}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="relative z-10 mt-4 flex items-start gap-y-2 text-[12px] tracking-[0.18em]"
+                    >
+                      <CardItem translateZ={140} className="w-full">
+                        <div className="overflow-hidden rounded-xl border border-white/10 bg-black/20">
                           <Image
                             src={image.path}
                             alt={image.title}
                             height={300}
                             width={500}
                             loading="lazy"
-                            sizes="(max-width: 768px) 90vw, (max-width: 1200px) 42vw, 28vw"
-                            className="mb-2 h-40 w-full rounded-xl object-cover transition-all duration-300 group-hover/card:shadow-xl"
+                            sizes="(max-width: 768px) 92vw, (max-width: 1200px) 46vw, 30vw"
+                            className="h-44 w-full object-cover transition-all duration-300 group-hover/card:scale-[1.06] group-hover/card:brightness-110 group-active/card:scale-[1.03] md:h-48"
                           />
-                        </CardItem>
-                      </Link>
-                    </CardBody>
-                  </CardContainer>
-                </motion.div>
-              </div>
+                        </div>
+                      </CardItem>
+                      <CardItem
+                        translateZ={96}
+                        className="inline-flex items-center gap-1 rounded-full border border-white/20 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/85 transition-colors duration-300 group-hover/card:border-accent/50 group-hover/card:text-accent md:text-[11px]"
+                      >
+                        Live preview
+                        <RxArrowTopRight aria-hidden className="text-sm" />
+                      </CardItem>
+                    </Link>
+                  </CardBody>
+                </CardContainer>
+              </motion.div>
             ))}
           </div>
         ),

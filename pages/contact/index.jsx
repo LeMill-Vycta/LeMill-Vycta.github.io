@@ -120,7 +120,7 @@ const Contact = () => {
             animate="show"
             exit="hidden"
             onSubmit={handleSubmit}
-            className="section-shell relative overflow-hidden rounded-[2rem]"
+            className="section-shell shell-dynamic relative overflow-hidden rounded-[2rem]"
             autoComplete="on"
           >
             <div className="pointer-events-none absolute inset-0 opacity-50">

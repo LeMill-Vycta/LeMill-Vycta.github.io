@@ -125,7 +125,7 @@ const Home = () => {
           exit="hidden"
           className="relative w-full xl:w-[48%]"
         >
-          <div className="section-shell globe-shell relative mx-auto">
+          <div className="section-shell globe-shell shell-dynamic relative mx-auto">
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(156,255,0,0.11),_transparent_56%)]" />
             <div className="relative z-10 h-full w-full">
               <GlobeComponent />

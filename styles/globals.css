@@ -114,6 +114,35 @@ a {
     @apply fixed inset-x-0 bottom-3 z-50 px-2 sm:px-4 xl:hidden;
     padding-bottom: max(0.15rem, env(safe-area-inset-bottom));
   }
+
+  .shell-dynamic {
+    @apply relative overflow-hidden;
+  }
+
+  .shell-dynamic::before {
+    content: "";
+    position: absolute;
+    inset: -45% -30% auto auto;
+    width: 20rem;
+    height: 20rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgb(241 48 36 / 0.24) 0%, rgb(241 48 36 / 0) 68%);
+    filter: blur(12px);
+    pointer-events: none;
+  }
+
+  .shell-dynamic::after {
+    content: "";
+    position: absolute;
+    right: 8%;
+    bottom: -22%;
+    width: 15rem;
+    height: 15rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgb(93 223 255 / 0.18) 0%, rgb(93 223 255 / 0) 72%);
+    filter: blur(14px);
+    pointer-events: none;
+  }
 }
 
 .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,

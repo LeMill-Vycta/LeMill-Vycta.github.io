@@ -18,47 +18,58 @@ const CAMERA_STOPS = [
 const highlightedCountries = new Set(["KEN", "CHN", "FRA", "ZAF", "JPN", "USA", "AUS"]);
 
 const getResponsiveConfig = (width) => {
-  if (width >= 1200) {
+  const memory = typeof navigator !== "undefined" ? navigator.deviceMemory ?? 4 : 4;
+  const cores = typeof navigator !== "undefined" ? navigator.hardwareConcurrency ?? 4 : 4;
+  const lowPower = width < 768 || memory <= 4 || cores <= 4;
+
+  const base = {
+    lowPower,
+    pixelRatio: typeof window !== "undefined" ? Math.min(window.devicePixelRatio || 1, lowPower ? 1 : 1.3) : 1,
+    showAtmosphere: !lowPower || width >= 768,
+    pointLimit: lowPower ? 12 : width >= 960 ? 25 : 18,
+    arcLimit: lowPower ? 28 : 48,
+    arcDashAnimateTime: lowPower ? 1200 : 880,
+    cameraDuration: lowPower ? 1800 : 2600,
+    cameraInterval: lowPower ? 11000 : 8500,
+  };
+
+  if (width >= 1200 && !lowPower) {
     return {
-      hexResolution: 4,
-      hexMargin: 0.7,
-      arcTransitionDuration: 950,
+      ...base,
+      hexResolution: 3,
+      hexMargin: 0.35,
+      arcTransitionDuration: 760,
       showLabels: true,
     };
   }
 
-  if (width >= 960) {
+  if (width >= 960 && !lowPower) {
     return {
+      ...base,
       hexResolution: 3,
-      hexMargin: 0.45,
-      arcTransitionDuration: 820,
-      showLabels: true,
+      hexMargin: 0.22,
+      arcTransitionDuration: 680,
+      showLabels: false,
     };
   }
 
   if (width >= 768) {
     return {
-      hexResolution: 3,
-      hexMargin: 0.25,
-      arcTransitionDuration: 700,
-      showLabels: true,
-    };
-  }
-
-  if (width >= 425) {
-    return {
+      ...base,
       hexResolution: 2,
-      hexMargin: 0.05,
-      arcTransitionDuration: 520,
+      hexMargin: 0.08,
+      arcTransitionDuration: 560,
       showLabels: false,
     };
   }
 
   return {
-    hexResolution: 2,
-    hexMargin: 0,
-    arcTransitionDuration: 480,
+    ...base,
+    hexResolution: 1,
+    hexMargin: 0.02,
+    arcTransitionDuration: 420,
     showLabels: false,
+    showAtmosphere: false,
   };
 };
 
@@ -71,8 +82,12 @@ const GlobeComponent = () => {
   const [globeSize, setGlobeSize] = useState(0);
   const [settings, setSettings] = useState(() => getResponsiveConfig(1200));
 
-  const arcsData = useMemo(() => travelHistory.flights, []);
-  const airportData = useMemo(() => airportHistory.airports, []);
+  const arcsData = useMemo(() => travelHistory.flights.slice(0, settings.arcLimit), [settings.arcLimit]);
+  const airportData = useMemo(() => airportHistory.airports.slice(0, settings.pointLimit), [settings.pointLimit]);
+  const labelsData = useMemo(
+    () => (settings.showLabels ? airportHistory.airports.slice(0, Math.min(settings.pointLimit, 12)) : []),
+    [settings.pointLimit, settings.showLabels]
+  );
   const countriesData = useMemo(() => countries.features, []);
 
   useEffect(() => {
@@ -108,24 +123,34 @@ const GlobeComponent = () => {
   }, []);
 
   useEffect(() => {
+    const renderer = globeRef.current?.renderer?.();
+    if (!renderer) {
+      return;
+    }
+
+    renderer.setPixelRatio(settings.pixelRatio);
+  }, [globeSize, settings.pixelRatio]);
+
+  useEffect(() => {
     if (!isClient || !globeRef.current || !globeSize) {
       return;
     }
 
+    const cameraStops = settings.lowPower ? CAMERA_STOPS.filter((_, idx) => idx % 2 === 0) : CAMERA_STOPS;
     let currentIndex = 0;
 
     const updateView = () => {
-      globeRef.current?.pointOfView(CAMERA_STOPS[currentIndex], 2800);
-      currentIndex = (currentIndex + 1) % CAMERA_STOPS.length;
+      globeRef.current?.pointOfView(cameraStops[currentIndex], settings.cameraDuration);
+      currentIndex = (currentIndex + 1) % cameraStops.length;
     };
 
     updateView();
-    const intervalId = window.setInterval(updateView, 8500);
+    const intervalId = window.setInterval(updateView, settings.cameraInterval);
 
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [globeSize, isClient]);
+  }, [globeSize, isClient, settings.cameraDuration, settings.cameraInterval, settings.lowPower]);
 
   useEffect(() => () => setGlobeReady(false), [setGlobeReady]);
 
@@ -138,12 +163,17 @@ const GlobeComponent = () => {
       {globeSize > 0 && (
         <Globe
           ref={globeRef}
-          rendererConfig={{ antialias: true, alpha: true }}
+          rendererConfig={{
+            antialias: !settings.lowPower,
+            alpha: true,
+            powerPreference: settings.lowPower ? "low-power" : "high-performance",
+          }}
           width={globeSize}
           height={globeSize}
+          animateIn={false}
           backgroundColor="rgba(0,0,0,0)"
           globeImageUrl="/earth-dark.jpg"
-          showAtmosphere
+          showAtmosphere={settings.showAtmosphere}
           atmosphereColor="#ffffff"
           atmosphereAltitude={0.2}
           hexPolygonsData={countriesData}
@@ -154,7 +184,13 @@ const GlobeComponent = () => {
           hexPolygonColor={(country) =>
             highlightedCountries.has(country.properties.ISO_A3) ? "#9cff00" : "#f1302494"
           }
-          onGlobeReady={() => setGlobeReady(true)}
+          onGlobeReady={() => {
+            const renderer = globeRef.current?.renderer?.();
+            if (renderer) {
+              renderer.setPixelRatio(settings.pixelRatio);
+            }
+            setGlobeReady(true);
+          }}
           enablePointerInteraction={false}
           arcsData={arcsData}
           arcColor={(arc) => (arc.status ? "#9cff00" : "#4a00e0")}
@@ -162,22 +198,22 @@ const GlobeComponent = () => {
           arcStroke={(arc) => (arc.status ? 0.5 : 0.6)}
           arcDashLength={0.9}
           arcDashGap={4}
-          arcDashAnimateTime={900}
+          arcDashAnimateTime={settings.arcDashAnimateTime}
           arcsTransitionDuration={settings.arcTransitionDuration}
           arcDashInitialGap={(arc) => arc.order}
-          labelsData={settings.showLabels ? airportData : []}
+          labelsData={labelsData}
           labelColor={() => "#ffffff"}
           labelDotOrientation={(point) => (point.text === "NGA" ? "top" : "right")}
           labelDotRadius={0.35}
-          labelSize={1.1}
+          labelSize={settings.lowPower ? 0.9 : 1.05}
           labelText="city"
-          labelResolution={5}
+          labelResolution={settings.lowPower ? 3 : 5}
           labelAltitude={0.07}
           pointsData={airportData}
           pointColor={() => "#ffffff"}
           pointsMerge
           pointAltitude={0.07}
-          pointRadius={0.1}
+          pointRadius={settings.lowPower ? 0.08 : 0.1}
         />
       )}
     </div>

@@ -79,7 +79,7 @@ const testimonialData = [
 
 const TestimonialSlider = () => {
   return (
-    <div className="relative flex h-[min(70vh,35rem)] min-h-[22rem] flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/25 antialiased md:min-h-[26rem]">
+    <div className="relative flex h-[40rem] min-h-[24rem] w-full flex-col items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-black/25 antialiased max-md:h-[34rem]">
       <InfiniteMovingCards items={testimonialData} direction="right" speed="slow" />
     </div>
   );
