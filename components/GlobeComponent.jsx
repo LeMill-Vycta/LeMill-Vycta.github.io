@@ -20,7 +20,6 @@ const highlightedCountries = new Set(["KEN", "CHN", "FRA", "ZAF", "JPN", "USA", 
 const getResponsiveConfig = (width) => {
   if (width >= 1200) {
     return {
-      size: 900,
       hexResolution: 4,
       hexMargin: 0.7,
       arcTransitionDuration: 950,
@@ -30,7 +29,6 @@ const getResponsiveConfig = (width) => {
 
   if (width >= 960) {
     return {
-      size: 760,
       hexResolution: 3,
       hexMargin: 0.45,
       arcTransitionDuration: 820,
@@ -40,7 +38,6 @@ const getResponsiveConfig = (width) => {
 
   if (width >= 768) {
     return {
-      size: 680,
       hexResolution: 3,
       hexMargin: 0.25,
       arcTransitionDuration: 700,
@@ -50,7 +47,6 @@ const getResponsiveConfig = (width) => {
 
   if (width >= 425) {
     return {
-      size: 400,
       hexResolution: 2,
       hexMargin: 0.05,
       arcTransitionDuration: 520,
@@ -59,7 +55,6 @@ const getResponsiveConfig = (width) => {
   }
 
   return {
-    size: 335,
     hexResolution: 2,
     hexMargin: 0,
     arcTransitionDuration: 480,
@@ -69,9 +64,11 @@ const getResponsiveConfig = (width) => {
 
 const GlobeComponent = () => {
   const globeRef = useRef();
+  const shellRef = useRef(null);
   const { setGlobeReady } = useGlobe();
 
   const [isClient, setIsClient] = useState(false);
+  const [globeSize, setGlobeSize] = useState(0);
   const [settings, setSettings] = useState(() => getResponsiveConfig(1200));
 
   const arcsData = useMemo(() => travelHistory.flights, []);
@@ -86,17 +83,32 @@ const GlobeComponent = () => {
     setIsClient(true);
 
     const handleResize = () => {
-      setSettings(getResponsiveConfig(window.innerWidth));
+      if (!shellRef.current) {
+        return;
+      }
+
+      const { width, height } = shellRef.current.getBoundingClientRect();
+      const resolvedSize = Math.max(250, Math.floor(Math.min(width, height)));
+
+      setGlobeSize((prev) => (prev === resolvedSize ? prev : resolvedSize));
+      setSettings(getResponsiveConfig(width));
     };
 
     handleResize();
+
+    const observer = new ResizeObserver(handleResize);
+    observer.observe(shellRef.current);
+
     window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
-    if (!isClient || !globeRef.current) {
+    if (!isClient || !globeRef.current || !globeSize) {
       return;
     }
 
@@ -113,56 +125,62 @@ const GlobeComponent = () => {
     return () => {
       window.clearInterval(intervalId);
     };
-  }, [isClient]);
+  }, [globeSize, isClient]);
+
+  useEffect(() => () => setGlobeReady(false), [setGlobeReady]);
 
   if (!isClient) {
-    return null;
+    return <div ref={shellRef} className="globe-stage" />;
   }
 
   return (
-    <Globe
-      ref={globeRef}
-      rendererConfig={{ antialias: true, alpha: true }}
-      width={settings.size}
-      height={settings.size}
-      backgroundColor="rgba(0,0,0,0)"
-      globeImageUrl="/earth-dark.jpg"
-      showAtmosphere
-      atmosphereColor="#ffffff"
-      atmosphereAltitude={0.2}
-      hexPolygonsData={countriesData}
-      hexPolygonResolution={settings.hexResolution}
-      hexPolygonMargin={settings.hexMargin}
-      hexPolygonAltitude={0.01}
-      hexPolygonUseDots={false}
-      hexPolygonColor={(country) =>
-        highlightedCountries.has(country.properties.ISO_A3) ? "#9cff00" : "#f1302494"
-      }
-      onGlobeReady={() => setGlobeReady(true)}
-      enablePointerInteraction={false}
-      arcsData={arcsData}
-      arcColor={(arc) => (arc.status ? "#9cff00" : "#4a00e0")}
-      arcAltitude={(arc) => arc.arcAlt}
-      arcStroke={(arc) => (arc.status ? 0.5 : 0.6)}
-      arcDashLength={0.9}
-      arcDashGap={4}
-      arcDashAnimateTime={900}
-      arcsTransitionDuration={settings.arcTransitionDuration}
-      arcDashInitialGap={(arc) => arc.order}
-      labelsData={settings.showLabels ? airportData : []}
-      labelColor={() => "#ffffff"}
-      labelDotOrientation={(point) => (point.text === "NGA" ? "top" : "right")}
-      labelDotRadius={0.35}
-      labelSize={1.1}
-      labelText="city"
-      labelResolution={5}
-      labelAltitude={0.07}
-      pointsData={airportData}
-      pointColor={() => "#ffffff"}
-      pointsMerge
-      pointAltitude={0.07}
-      pointRadius={0.1}
-    />
+    <div ref={shellRef} className="globe-stage">
+      {globeSize > 0 && (
+        <Globe
+          ref={globeRef}
+          rendererConfig={{ antialias: true, alpha: true }}
+          width={globeSize}
+          height={globeSize}
+          backgroundColor="rgba(0,0,0,0)"
+          globeImageUrl="/earth-dark.jpg"
+          showAtmosphere
+          atmosphereColor="#ffffff"
+          atmosphereAltitude={0.2}
+          hexPolygonsData={countriesData}
+          hexPolygonResolution={settings.hexResolution}
+          hexPolygonMargin={settings.hexMargin}
+          hexPolygonAltitude={0.01}
+          hexPolygonUseDots={false}
+          hexPolygonColor={(country) =>
+            highlightedCountries.has(country.properties.ISO_A3) ? "#9cff00" : "#f1302494"
+          }
+          onGlobeReady={() => setGlobeReady(true)}
+          enablePointerInteraction={false}
+          arcsData={arcsData}
+          arcColor={(arc) => (arc.status ? "#9cff00" : "#4a00e0")}
+          arcAltitude={(arc) => arc.arcAlt}
+          arcStroke={(arc) => (arc.status ? 0.5 : 0.6)}
+          arcDashLength={0.9}
+          arcDashGap={4}
+          arcDashAnimateTime={900}
+          arcsTransitionDuration={settings.arcTransitionDuration}
+          arcDashInitialGap={(arc) => arc.order}
+          labelsData={settings.showLabels ? airportData : []}
+          labelColor={() => "#ffffff"}
+          labelDotOrientation={(point) => (point.text === "NGA" ? "top" : "right")}
+          labelDotRadius={0.35}
+          labelSize={1.1}
+          labelText="city"
+          labelResolution={5}
+          labelAltitude={0.07}
+          pointsData={airportData}
+          pointColor={() => "#ffffff"}
+          pointsMerge
+          pointAltitude={0.07}
+          pointRadius={0.1}
+        />
+      )}
+    </div>
   );
 };
 

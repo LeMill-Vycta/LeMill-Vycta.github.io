@@ -1,66 +1,15 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
 
 import { navData } from "./navData";
 
 const MobileNav = () => {
-  const { pathname, events } = useRouter();
-  const navRef = useRef(null);
-  const [isNavVisible, setIsNavVisible] = useState(false);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
-        setIsNavVisible(false);
-      }
-    };
-
-    const handleKeyDown = (event) => {
-      if (event.key === "Escape") {
-        setIsNavVisible(false);
-      }
-    };
-
-    const closeOnRouteChange = () => setIsNavVisible(false);
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
-    events.on("routeChangeComplete", closeOnRouteChange);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
-      events.off("routeChangeComplete", closeOnRouteChange);
-    };
-  }, [events]);
+  const { pathname } = useRouter();
 
   return (
-    <>
-      <button
-        type="button"
-        className="hamburger-btn pointer-events-auto"
-        aria-label={isNavVisible ? "Close navigation" : "Open navigation"}
-        aria-expanded={isNavVisible}
-        aria-controls="mobile-nav"
-        onClick={() => setIsNavVisible((prev) => !prev)}
-      >
-        <span className={`hamburger-line first ${isNavVisible ? "toggled" : ""}`} />
-        <span className={`hamburger-line second ${isNavVisible ? "toggled" : ""}`} />
-        <span className={`hamburger-line third ${isNavVisible ? "toggled" : ""}`} />
-      </button>
-
-      <nav
-        ref={navRef}
-        id="mobile-nav"
-        aria-label="Mobile navigation"
-        className={`pointer-events-auto fixed left-1/2 top-1/2 z-50 w-[min(90vw,420px)] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-white/15 bg-black/80 p-6 shadow-2xl backdrop-blur-xl transition-all duration-300 xl:hidden ${
-          isNavVisible
-            ? "visible opacity-100"
-            : "invisible opacity-0"
-        }`}
-      >
-        <div className="flex flex-col gap-2">
+    <nav className="adaptive-nav pointer-events-auto" aria-label="Adaptive navigation">
+      <div className="mx-auto w-full max-w-4xl rounded-2xl border border-white/15 bg-black/70 p-1 shadow-2xl backdrop-blur-xl min-[420px]:p-2">
+        <div className="grid grid-cols-6 gap-1 min-[420px]:gap-2">
           {navData.map((link) => {
             const isActive = pathname === link.path;
 
@@ -69,20 +18,27 @@ const MobileNav = () => {
                 key={link.path}
                 href={link.path}
                 aria-current={isActive ? "page" : undefined}
-                className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition-all duration-200 ${
+                className={`group flex min-h-[3.25rem] flex-col items-center justify-center rounded-xl border px-1 py-1.5 text-center transition-all duration-200 min-[420px]:min-h-[3.6rem] min-[420px]:py-2 ${
                   isActive
-                    ? "border-accent/60 bg-accent/15 text-accent"
-                    : "border-white/10 bg-white/[0.02] text-white/90 hover:border-accent/50 hover:text-accent"
+                    ? "border-accent/60 bg-accent/15 text-accent shadow-glow"
+                    : "border-transparent text-white/80 hover:border-accent/40 hover:text-accent"
                 }`}
               >
-                <span>{link.name}</span>
-                <link.Icon aria-hidden className="text-lg" />
+                <link.Icon aria-hidden className="text-base min-[420px]:text-lg" />
+                <span
+                  className={`mt-1 hidden text-[10px] font-semibold uppercase tracking-[0.1em] min-[420px]:block min-[620px]:text-[11px] ${
+                    isActive ? "text-accent" : "text-white/75"
+                  }`}
+                >
+                  {link.name}
+                </span>
+                <span className="sr-only">{link.name}</span>
               </Link>
             );
           })}
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 

@@ -59,15 +59,15 @@ a {
   }
 
   .h1 {
-    @apply mb-6 text-4xl font-semibold leading-tight md:text-5xl xl:text-6xl;
+    @apply mb-6 text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl xl:text-6xl;
   }
 
   .h2 {
-    @apply mb-4 text-3xl font-semibold leading-tight md:text-4xl;
+    @apply mb-4 text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl;
   }
 
   p {
-    @apply text-base leading-8 text-white/85;
+    @apply text-sm leading-7 text-white/85 md:text-base md:leading-8;
   }
 
   .btn,
@@ -95,11 +95,24 @@ a {
   }
 
   .section-shell {
-    @apply glass-panel rounded-3xl p-6 md:p-8;
+    @apply glass-panel rounded-3xl p-4 sm:p-5 md:p-7;
   }
 
   .accent-chip {
     @apply inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-accent;
+  }
+
+  .globe-shell {
+    @apply aspect-square w-full max-w-[44rem] overflow-hidden rounded-[2rem] p-2 sm:p-3 md:p-4;
+  }
+
+  .globe-stage {
+    @apply relative flex h-full w-full items-center justify-center overflow-hidden;
+  }
+
+  .adaptive-nav {
+    @apply fixed inset-x-0 bottom-3 z-50 px-2 sm:px-4 xl:hidden;
+    padding-bottom: max(0.15rem, env(safe-area-inset-bottom));
   }
 }
 
@@ -156,62 +169,6 @@ a {
 
 .no-visible-scrollbar::-webkit-scrollbar {
   display: none;
-}
-
-.hamburger-btn {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 60;
-  display: none;
-  height: 48px;
-  width: 48px;
-  border: 1px solid rgb(255 255 255 / 0.2);
-  border-radius: 999px;
-  background: rgb(0 0 0 / 0.55);
-  backdrop-filter: blur(10px);
-}
-
-.hamburger-line {
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 2px;
-  margin: 4px auto;
-  border-radius: 999px;
-  background: var(--accent);
-  transition: transform 0.25s ease, opacity 0.2s ease;
-}
-
-.hamburger-line.first,
-.hamburger-line.third {
-  width: 16px;
-}
-
-.hamburger-line.third {
-  margin-left: auto;
-}
-
-.hamburger-line.first.toggled {
-  transform: translate(2px, 6px) rotate(45deg);
-  width: 22px;
-}
-
-.hamburger-line.second.toggled {
-  opacity: 0;
-}
-
-.hamburger-line.third.toggled {
-  transform: translate(2px, -6px) rotate(-45deg);
-  width: 22px;
-}
-
-@media (max-width: 1024px) {
-  .hamburger-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
 }
 
 @media (max-width: 960px) {

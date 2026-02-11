@@ -64,7 +64,7 @@ const ServiceSlider = () => {
       }}
       modules={[Pagination]}
       slidesPerGroup={1}
-      className="h-[540px] md:h-[620px]"
+      className="pb-12"
       style={{
         "--swiper-pagination-color": "#f13024",
         "--swiper-pagination-bullet-inactive-color": "#7f8698",
@@ -80,7 +80,7 @@ const ServiceSlider = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45, ease: "easeOut" }}
-            className="group relative h-[490px] overflow-hidden rounded-3xl border border-accent/35 bg-matte/90 p-6 md:h-[560px]"
+            className="group relative min-h-[24rem] overflow-hidden rounded-3xl border border-accent/35 bg-matte/90 p-5 sm:min-h-[26rem] md:min-h-[31rem] md:p-6"
           >
             <div className="relative z-10 flex h-full flex-col">
               <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-accent/45 bg-accent/10 text-3xl text-accent">

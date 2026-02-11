@@ -57,7 +57,7 @@ export const InfiniteMovingCards = ({
 
           return (
           <li
-            className="relative w-[350px] max-w-full flex-shrink-0 rounded-2xl border border-accent/40 bg-matte px-8 py-6 md:w-[440px]"
+            className="relative w-[82vw] max-w-full flex-shrink-0 rounded-2xl border border-accent/40 bg-matte px-5 py-6 min-[420px]:w-[340px] min-[420px]:px-7 md:w-[440px] md:px-8"
             key={`${item.name}-${index}`}
             aria-hidden={isClone}
           >

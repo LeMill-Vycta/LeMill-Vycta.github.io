@@ -50,7 +50,7 @@ const Layout = ({ children }) => {
       <Header />
       <Nav />
 
-      <div id="main-content" className="relative z-20">
+      <div id="main-content" className="relative z-20 pb-24 sm:pb-28 xl:pb-0 xl:pr-20">
         {children}
       </div>
     </main>
