@@ -193,7 +193,7 @@ const GlobeComponent = () => {
           }}
           enablePointerInteraction={false}
           arcsData={arcsData}
-          arcColor={(arc) => (arc.status ? "#9cff00" : "#ffffff")}
+          arcColor={(arc) => (arc.status ? "#9cff00" : "#4a00e0")}
           arcAltitude={(arc) => arc.arcAlt}
           arcStroke={(arc) => (arc.status ? 0.5 : 0.6)}
           arcDashLength={0.9}
