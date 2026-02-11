@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useGlobe } from "../components/globe/globeContext";
 import ParticlesContainer from "./ParticlesContainer";
@@ -25,8 +26,13 @@ const Transition = () => {
   const router = useRouter();
   const { globeReady } = useGlobe();
   const prefersReducedMotion = useReducedMotion();
+  const [isMounted, setIsMounted] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [showLoader, setShowLoader] = useState(router.pathname === "/");
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -80,12 +86,12 @@ const Transition = () => {
     return null;
   }
 
-  return (
+  const transitionLayers = (
     <>
       {showLoader && (
         <motion.div
           role="status"
-          className="fixed inset-0 z-30 overflow-hidden bg-gradient-to-tr from-black via-[#090f2a] to-[#180507]"
+          className="fixed left-0 top-0 z-[999] h-dvh min-h-screen w-screen overflow-hidden bg-gradient-to-tr from-black via-[#090f2a] to-[#180507]"
           variants={transitionVariants}
           initial="initial"
           animate="animate"
@@ -120,7 +126,7 @@ const Transition = () => {
       )}
 
       <motion.div
-        className="fixed inset-0 z-20 bg-gradient-to-tr from-[#16070f] via-[#101c4a] to-[#020205]"
+        className="fixed left-0 top-0 z-[998] h-dvh min-h-screen w-screen bg-gradient-to-tr from-[#16070f] via-[#101c4a] to-[#020205]"
         variants={transitionVariants}
         initial="initial"
         animate="animate"
@@ -129,7 +135,7 @@ const Transition = () => {
         aria-hidden
       />
       <motion.div
-        className="fixed inset-0 z-10 bg-gradient-to-tr from-black via-[#170023] to-[#32080d]"
+        className="fixed left-0 top-0 z-[997] h-dvh min-h-screen w-screen bg-gradient-to-tr from-black via-[#170023] to-[#32080d]"
         variants={transitionVariants}
         initial="initial"
         animate="animate"
@@ -139,6 +145,12 @@ const Transition = () => {
       />
     </>
   );
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return createPortal(transitionLayers, document.body);
 };
 
 export default Transition;
