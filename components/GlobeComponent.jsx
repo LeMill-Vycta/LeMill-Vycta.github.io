@@ -65,7 +65,7 @@ const getResponsiveConfig = (width) => {
 
   return {
     ...base,
-    hexResolution: 1,
+    hexResolution: 2,
     hexMargin: 0.02,
     arcTransitionDuration: 420,
     showLabels: false,
