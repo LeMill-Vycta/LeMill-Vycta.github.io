@@ -1,15 +1,10 @@
 import Link from "next/link";
 import { IoMdMail } from "react-icons/io";
 import { LuCoffee } from "react-icons/lu";
-import { RiDribbbleLine, RiInstagramLine } from "react-icons/ri";
+import { RiInstagramLine } from "react-icons/ri";
 import { TbBrandGithub } from "react-icons/tb";
 
 const socialData = [
-  {
-    name: "Dribbble",
-    href: "https://dribbble.com/Lemill",
-    Icon: RiDribbbleLine,
-  },
   {
     name: "Instagram",
     href: "https://instagram.com/almakcentre",
@@ -17,7 +12,7 @@ const socialData = [
   },
   {
     name: "GitHub",
-    href: "https://github.com/vyctaLemill",
+    href: "https://github.com/LeMill-Vycta",
     Icon: TbBrandGithub,
   },
   {
