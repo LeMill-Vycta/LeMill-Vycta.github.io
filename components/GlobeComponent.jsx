@@ -36,7 +36,7 @@ const getResponsiveConfig = (width) => {
   if (width >= 1200 && !lowPower) {
     return {
       ...base,
-      hexResolution: 3,
+      hexResolution: 4,
       hexMargin: 0.35,
       arcTransitionDuration: 760,
       showLabels: true,
@@ -46,7 +46,7 @@ const getResponsiveConfig = (width) => {
   if (width >= 960 && !lowPower) {
     return {
       ...base,
-      hexResolution: 3,
+      hexResolution: 4,
       hexMargin: 0.22,
       arcTransitionDuration: 680,
       showLabels: false,
@@ -56,7 +56,7 @@ const getResponsiveConfig = (width) => {
   if (width >= 768) {
     return {
       ...base,
-      hexResolution: 2,
+      hexResolution: 3,
       hexMargin: 0.08,
       arcTransitionDuration: 560,
       showLabels: false,
