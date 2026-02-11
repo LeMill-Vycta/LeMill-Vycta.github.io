@@ -190,6 +190,43 @@ a {
   }
 }
 
+.slow-accent-glow {
+  animation: slowAccentGlow 18s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+.slow-cyan-glow {
+  animation: slowCyanGlow 22s ease-in-out infinite;
+  animation-delay: 1.2s;
+  will-change: opacity, transform;
+}
+
+@keyframes slowAccentGlow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.42;
+    transform: scale(1.09);
+  }
+}
+
+@keyframes slowCyanGlow {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.36;
+    transform: scale(1.08);
+  }
+}
+
 .no-visible-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
