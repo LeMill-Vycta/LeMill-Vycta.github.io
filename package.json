@@ -1,0 +1,108 @@
+{
+  "name": "modern-portfolio",
+  "version": "1.0.1",
+  "private": true,
+  "author": {
+    "name": "Vycta",
+    "email": "contact@vycta.co.ke",
+    "url": "https://github.com/vyctaLemill"
+  },
+  "description": "Vycta is a Full-stack web developer with 10+ years of experience.",
+  "keywords": [
+    "react",
+    "next",
+    "nextjs",
+    "html",
+    "css",
+    "javascript",
+    "js",
+    "modern-ui",
+    "modern-ux",
+    "portfolio",
+    "framer-motion",
+    "3d-website",
+    "particle-effect"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanidhyy/modern-portfolio.git"
+  },
+  "homepage": "https://github.com/sanidhyy/modern-portfolio#readme",
+  "bugs": {
+    "url": "https://github.com/sanidhyy/modern-portfolio/issues",
+    "email": "sanidhya.verma12345@gmail.com"
+  },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/sanidhy"
+    },
+    {
+      "type": "Buy me a coffee",
+      "url": "https://www.buymeacoffee.com/sanidhy"
+    }
+  ],
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
+    "@next/font": "^13.4.4",
+    "@react-three/drei": "^9.97.3",
+    "@react-three/fiber": "^8.15.16",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.2",
+    "cors": "^2.8.5",
+    "d3-dsv": "^3.0.1",
+    "d3-geo": "^3.1.0",
+    "express": "^4.18.2",
+    "framer-motion": "^10.12.16",
+    "framer-motion-3d": "^11.0.3",
+    "globe.gl": "^2.32.1",
+    "gsap": "^3.12.5",
+    "index-array-by": "^1.4.1",
+    "lodash": "^4.17.21",
+    "next": "^13.5.6",
+    "nodemailer": "^6.9.9",
+    "querystring": "^0.2.1",
+    "react": "18.2.0",
+    "react-countup": "^6.4.2",
+    "react-dom": "18.2.0",
+    "react-ga4": "^2.1.0",
+    "react-globe.gl": "^2.27.1",
+    "react-icons": "^4.8.0",
+    "react-kofi-overlay": "^1.0.2",
+    "react-on-screen": "^2.1.1",
+    "react-three-fiber": "^6.0.13",
+    "react-toastify": "^10.0.4",
+    "react-tsparticles": "^2.9.3",
+    "swiper": "^9.4.0",
+    "tailwind-scrollbar": "^3.0.4",
+    "three": "^0.161.0",
+    "three-globe": "^2.30.0",
+    "three-glow-mesh": "^0.1.2",
+    "topojson-client": "^3.1.0",
+    "tsparticles": "^2.9.3",
+    "window": "^1.0.0"
+  },
+  "devDependencies": {
+    "@tsparticles/engine": "^3.3.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.3.0",
+    "autoprefixer": "^10.4.14",
+    "clsx": "^2.1.0",
+    "eslint": "8.41.0",
+    "eslint-config-next": "13.4.3",
+    "postcss": "^8.4.23",
+    "react-responsive": "^10.0.0",
+    "react-tooltip": "^5.26.3",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss": "^3.3.2"
+  }
+}

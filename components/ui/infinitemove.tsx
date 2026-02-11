@@ -1,0 +1,82 @@
+"use client";
+
+import Image from "next/image";
+import React, { useMemo } from "react";
+
+import { cn } from "../../utils/cn";
+
+export const InfiniteMovingCards = ({
+  items,
+  direction = "left",
+  speed = "fast",
+  pauseOnHover = true,
+  className,
+}: {
+  items: {
+    image: string;
+    name: string;
+    position: string;
+    message: string;
+  }[];
+  direction?: "left" | "right";
+  speed?: "fast" | "normal" | "slow";
+  pauseOnHover?: boolean;
+  className?: string;
+}) => {
+  const animationDirection = direction === "left" ? "forwards" : "reverse";
+  const animationDuration = speed === "fast" ? "30s" : speed === "normal" ? "40s" : "60s";
+
+  const duplicatedItems = useMemo(() => [...items, ...items], [items]);
+
+  const scrollerStyle = useMemo(
+    () =>
+      ({
+        ["--animation-direction" as string]: animationDirection,
+        ["--animation-duration" as string]: animationDuration,
+      }) as React.CSSProperties,
+    [animationDirection, animationDuration]
+  );
+
+  return (
+    <div
+      style={scrollerStyle}
+      className={cn(
+        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        className
+      )}
+    >
+      <ul
+        className={cn(
+          "flex w-max min-w-full shrink-0 flex-nowrap gap-4 py-4",
+          "animate-scroll",
+          pauseOnHover && "hover:[animation-play-state:paused]"
+        )}
+      >
+        {duplicatedItems.map((item, index) => {
+          const isClone = index >= items.length;
+
+          return (
+          <li
+            className="relative w-[350px] max-w-full flex-shrink-0 rounded-2xl border border-accent/40 bg-matte px-8 py-6 md:w-[440px]"
+            key={`${item.name}-${index}`}
+            aria-hidden={isClone}
+          >
+            <blockquote>
+              <span className="relative z-20 text-sm leading-[1.7] text-gray-100 xl:text-base">{item.message}</span>
+              <div className="relative z-20 mt-6 flex flex-col items-center">
+                <div className="mx-auto mb-2">
+                  <Image src={item.image} width={80} height={80} alt={item.name} loading="lazy" />
+                </div>
+
+                <div className="text-sm xl:text-lg">{item.name}</div>
+                <div className="text-xs font-light uppercase tracking-widest text-white/70 xl:text-[12px]">
+                  {item.position}
+                </div>
+              </div>
+            </blockquote>
+          </li>
+        )})}
+      </ul>
+    </div>
+  );
+};

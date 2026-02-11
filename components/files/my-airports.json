@@ -1,0 +1,205 @@
+{
+    "type": "AirportsCollection",
+    "airports": [
+        {
+            "text": "NYR",
+            "size": 1.0,
+            "country": "Kenya",
+            "city": "Nairobi",
+            "lat": "-0.4172",
+            "lng": "36.9516"
+        },
+        {
+            "text": "XIJ",
+            "size": 1.0,
+            "country": "China",
+            "city": "Xijiazhuang",
+            "lat": "39.1",
+            "lng": "117.1"
+        },
+        {
+            "text": "CPT",
+            "size": 1.0,
+            "country": "South Africa",
+            "city": "Cape Town",
+            "lat": "-33.9249",
+            "lng": "18.4241"
+        },
+        {
+            "text": "PAR",
+            "size": 1.0,
+            "country": "France",
+            "city": "Paris",
+            "lat": "48.8566",
+            "lng": "2.3522"
+        },
+        {
+            "text": "NYC",
+            "size": 1.0,
+            "country": "United States",
+            "city": "New York City",
+            "lat": "40.7128",
+            "lng": "-74.0060"
+        },
+        {
+            "text": "MEL",
+            "size": 1.0,
+            "country": "Australia",
+            "city": "Melbourne",
+            "lat": "-37.8136",
+            "lng": "144.9631"
+        },
+        {
+            "text": "TYO",
+            "size": 1.0,
+            "country": "Japan",
+            "city": "Tokyo",
+            "lat": "35.6762",
+            "lng": "139.6503"
+        },
+        {
+            "text": "YYZ",
+            "size": 1.0,
+            "country": "Canada",
+            "city": "Toronto",
+            "lat": "43.6511",
+            "lng": "-79.3470"
+        },
+        {
+            "text": "DAL",
+            "size": 1.0,
+            "country": "United States",
+            "city": "Dallas",
+            "lat": "32.7767",
+            "lng": "-96.7970"
+        },
+        {
+            "text": "MIA",
+            "size": 1.0,
+            "country": "United States",
+            "city": "Miami",
+            "lat": "25.7617",
+            "lng": "-80.1918"
+        },
+        {
+            "text": "SHA",
+            "size": 1.0,
+            "country": "China",
+            "city": "Shanghai",
+            "lat": "31.2304",
+            "lng": "121.4737"
+        },
+        {
+            "text": "GZ",
+            "size": 1.0,
+            "country": "China",
+            "city": "Guangzhou",
+            "lat": "23.1291",
+            "lng": "113.2644"
+        },
+        {
+            "text": "DUR",
+            "size": 1.0,
+            "country": "South Africa",
+            "city": "Durban",
+            "lat": "-29.8587",
+            "lng": "31.0218"
+        },
+        {
+            "text": "JNB",
+            "size": 1.0,
+            "country": "South Africa",
+            "city": "Johannesburg",
+            "lat": "-26.2041",
+            "lng": "28.0473"
+        },
+        {
+            "text": "MAR",
+            "size": 1.0,
+            "country": "France",
+            "city": "Marseille",
+            "lat": "43.2965",
+            "lng": "5.3698"
+        },
+        {
+            "text": "LYS",
+            "size": 1.0,
+            "country": "France",
+            "city": "Lyon",
+            "lat": "45.7640",
+            "lng": "4.8357"
+        },
+        {
+            "text": "HOU",
+            "size": 1.0,
+            "country": "United States",
+            "city": "Houston",
+            "lat": "29.7604",
+            "lng": "-95.3698"
+        },
+        {
+            "text": "AUS",
+            "size": 1.0,
+            "country": "United States",
+            "city": "Austin",
+            "lat": "30.2672",
+            "lng": "-97.7431"
+        },
+        {
+            "text": "SYD",
+            "size": 1.0,
+            "country": "Australia",
+            "city": "Sydney",
+            "lat": "-33.8688",
+            "lng": "151.2093"
+        },
+        {
+            "text": "BNE",
+            "size": 1.0,
+            "country": "Australia",
+            "city": "Brisbane",
+            "lat": "-27.4698",
+            "lng": "153.0251"
+        },
+        {
+            "text": "OSA",
+            "size": 1.0,
+            "country": "Japan",
+            "city": "Osaka",
+            "lat": "34.6937",
+            "lng": "135.5023"
+        },
+        {
+            "text": "NKA",
+            "size": 1.0,
+            "country": "Japan",
+            "city": "Nagoya",
+            "lat": "35.1814",
+            "lng": "136.9066"
+        },
+        {
+            "text": "VAN",
+            "size": 1.0,
+            "country": "Canada",
+            "city": "Vancouver",
+            "lat": "49.2827",
+            "lng": "-123.120"
+        },
+        {
+            "text": "MTL",
+            "size": 1.0,
+            "country": "Canada",
+            "city": "Montreal",
+            "lat": "45.5017",
+            "lng": "-73.5673"
+        },
+        {
+            "text": "MBA",
+            "size": 1.0,
+            "country": "Kenya",
+            "city": "Mombasa",
+            "lat": "-4.0435",
+            "lng": "39.6682"
+        }
+    ]
+}

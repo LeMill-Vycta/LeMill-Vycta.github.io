@@ -1,0 +1,24 @@
+the arcs are the lines that are curved and move from one point in the globe to the next point from the imported json data.When i initially mount the globe by fully reloading the page it is on the globe loads correctly.When i navigate to a different page prop and come back to the pageProp with the globe, its like the timeout is not being reset.Context my website has 5 pages all of which can be accessed as component and do not require full page reload during navigation...more context, here is my _app.jsx: import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/router";
+
+import Layout from "../components/Layout";
+import Transition from "../components/Transition";
+
+import "../styles/globals.css";
+
+function MyApp({ Component, pageProps }) {
+    const router = useRouter();
+
+    return (
+        <Layout>
+            <AnimatePresence mode="wait">
+                <motion.div key={router.route} className="h-full">
+                    <Transition />
+                    <Component {...pageProps} />
+                </motion.div>
+            </AnimatePresence>
+        </Layout>
+    );
+}
+
+export default MyApp;   
